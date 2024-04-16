@@ -1,0 +1,20 @@
+.field {
+    display: flex;
+}
+
+.value {
+    color: #2E2F42;
+    font-family: Montserrat;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.2;  /* 120% */
+    letter-spacing: 1.6px;
+}
+
+.label {
+    color: #2E2F42;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;     /* 150% */
+}

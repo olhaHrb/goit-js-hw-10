@@ -1,5 +1,42 @@
+.form {
+    display: flex;
+    gap: 8px;
+    margin-top: 32px;
+    margin-left: 156px;
+}
+
+input {
+    box-sizing: border-box;
+    width: 272px;
+    height: 40px;
+    border-radius: 4px;
+}
+
+button {
+    width: 75px;
+    height: 40px;
+    border-radius:8px;
+    background-color: #CFCFCF;
+    color: #989898;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;/* 150% */
+    letter-spacing: 0.64px;
+    border: none;
+}
+
+.timer {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    width: 346px;
+    margin-top: 32px;
+    margin-left: 156px;
+}
+
 .field {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .value {

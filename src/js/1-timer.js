@@ -18,10 +18,13 @@ const clockfaceSeconds = document.querySelector(".value[data-seconds]");
 
 
 let isActive = true;
-let intervalId = null;
 
 function hadleClick() {
-   flatpickr();
+  if(!isActive) {
+        return;
+  }
+  
+  flatpickr();
 };
 
 const selector = date;
@@ -52,13 +55,14 @@ function start() {
     }
 
     const startTime = userSelectedDate;
-    intervalId = setInterval(() => {
-      const currentTime = Date.now();
-      const deltaTime = startTime - currentTime;
-      const time = getTime(deltaTime);
-//      console.log(time);
-      updateClockface(time);
-    }, 1000)
+    setInterval(() => {
+    const currentTime = Date.now();
+    const deltaTime = startTime - currentTime;
+    const time = getTime(deltaTime);
+    //      console.log(time);
+    updateClockface(time);
+  }, 1000);
+  isActive = false;
 }
 
 

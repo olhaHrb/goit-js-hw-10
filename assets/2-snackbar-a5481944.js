@@ -1,0 +1,2 @@
+let l=0,i=0;const t=document.querySelector(".form-number");t.addEventListener("blur",()=>{l=t.value});const n=document.querySelector("fieldset");n.addEventListener("click",d);function d(e){(e.target.value==="fulfilled"||e.target.value==="rejected")&&(i=e.target.value)}const s=document.querySelector(".form");s.addEventListener("submit",()=>{const e=new Promise((o,r)=>{setTimeout(()=>{i==="fulfilled"?o(`✅ Fulfilled promise in ${delay}ms`):r(`❌ Rejected promise in ${delay}ms`)},l)});console.log(e)});
+//# sourceMappingURL=2-snackbar-a5481944.js.map

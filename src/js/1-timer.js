@@ -27,7 +27,6 @@ function hadleClick() {
   flatpickr();
 };
 
-const selector = date;
 const options = {
     enableTime: true,
     time_24hr: true,
@@ -45,7 +44,7 @@ const options = {
     },
 };
 
-flatpickr(selector, options);
+flatpickr(date, options);
 
 
 function start() {

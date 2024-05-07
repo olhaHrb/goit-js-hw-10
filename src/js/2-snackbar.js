@@ -4,7 +4,6 @@ let state = 0;
 const input = document.querySelector(".form-number");
 input.addEventListener("blur", () => {
     delayTime = input.value;
-    console.log(delayTime);
 });
 
 const fieldRadio = document.querySelector("fieldset");
@@ -18,8 +17,6 @@ function handleClick(event) {
 
 const form = document.querySelector(".form")
 form.addEventListener("submit", () => {
-    console.log(state);
-    console.log(delayTime);
 
     const promise = new Promise((resolve, reject) => {
         setTimeout(() => {

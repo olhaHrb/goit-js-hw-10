@@ -1,11 +1,13 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
+
 
 
 let userSelectedDate = 0;
 
-const now = Date.now();
 
 const button = document.querySelector('button[data-start]');
 button.addEventListener("click", start);
@@ -23,7 +25,6 @@ function hadleClick() {
   if(!isActive) {
         return;
   }
-  
   flatpickr();
 };
 
@@ -33,34 +34,41 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
-//      console.log(selectedDates[0]);
-//      console.log(selectedDates[0].getTime());
-      if (selectedDates[0].getTime() < now) {
-        window.alert("Please choose a date in the future");
+      if (selectedDates[0].getTime() < Date.now()) {
+//        userSelectedDate = Date.now();
+        iziToast.error({
+          title: 'Error',
+          message: 'Please choose a date in the future',
+        });
       } else {        
         userSelectedDate = selectedDates[0];
-//        console.log(selectedDates[0].getTime() - now);
       };      
     },
 };
 
 flatpickr(date, options);
 
-
+let intervalId = null;
 function start() {
-  console.log(userSelectedDate);
-    if(!isActive) {
-        return;
+//  console.log(userSelectedDate);
+  if(!isActive) {
+    return;
+  }
+  const startTime = userSelectedDate;
+  if ((startTime - Date.now()) <= 0) {
+    return;
+  }
+  
+  intervalId = setInterval(() => {
+    const deltaTime = startTime - Date.now();
+    if (deltaTime <= 0) {
+    clearInterval(intervalId);
+    return;
     }
-
-    const startTime = userSelectedDate;
-    setInterval(() => {
-    const currentTime = Date.now();
-    const deltaTime = startTime - currentTime;
     const time = getTime(deltaTime);
-    //      console.log(time);
     updateClockface(time);
   }, 1000);
+
   isActive = false;
 }
 

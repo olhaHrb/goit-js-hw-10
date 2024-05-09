@@ -1,3 +1,7 @@
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
+
+
 let delayTime = 0;
 let state = 0;
 
@@ -11,24 +15,38 @@ fieldRadio.addEventListener("click", handleClick);
 function handleClick(event) {
     if (event.target.value === "fulfilled" || event.target.value === "rejected") {
         state = event.target.value;
-    }
-    
+    } 
 };
 
 const form = document.querySelector(".form")
-form.addEventListener("submit", () => {
+form.addEventListener("submit", handleSubmit);
+function handleSubmit (event) {
+    event.preventDefault();
 
     const promise = new Promise((resolve, reject) => {
         setTimeout(() => {
             if (state === "fulfilled") {
-                resolve(`✅ Fulfilled promise in ${delay}ms`)
+                resolve(`✅ Fulfilled promise in ${delayTime}ms`)
             } else {
-                reject(`❌ Rejected promise in ${delay}ms`)
+                reject(`❌ Rejected promise in ${delayTime}ms`)
             }
         }, delayTime);
     });
-    console.log(promise);
-});
+    promise
+        .then(value => {
+            iziToast.info({
+            message: value,
+            });
+//        console.log(value); 
+    })
+        .catch(error => {
+            iziToast.info({
+            message: error,
+            });
+//        console.log(error); 
+    });
+};
+
 
 
 

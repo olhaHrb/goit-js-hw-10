@@ -11,47 +11,49 @@ let userSelectedDate = 0;
 
 const button = document.querySelector('button[data-start]');
 button.addEventListener("click", start);
-const date = document.querySelector("#datetime-picker");
-date.addEventListener("click", hadleClick);
+const inputDate = document.querySelector("#datetime-picker");
+//inputDate.addEventListener("click", hadleClick);
 const clockfaceDays = document.querySelector(".value[data-days]");
 const clockfaceHours = document.querySelector(".value[data-hours]");
 const clockfaceMins = document.querySelector(".value[data-minutes]");
 const clockfaceSeconds = document.querySelector(".value[data-seconds]");
 
 
-let isActive = true;
+let btnIsActive = false;
+let inputIsActive = true;
 
-function hadleClick() {
-  if(!isActive) {
-        return;
-  }
-  flatpickr();
-};
+//function hadleClick() {
+//  if(!isActive) {
+//        return;
+//  }
+//  flatpickr(inputDate, options);
+//};
 
 const options = {
-    enableTime: true,
-    time_24hr: true,
-    defaultDate: new Date(),
-    minuteIncrement: 1,
-    onClose(selectedDates) {
-      if (selectedDates[0].getTime() < Date.now()) {
-//        userSelectedDate = Date.now();
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    if (!inputIsActive) {
+      return;
+    } else if (selectedDates[0].getTime() < Date.now()) {
         iziToast.error({
           title: 'Error',
           message: 'Please choose a date in the future',
         });
       } else {        
         userSelectedDate = selectedDates[0];
+        btnIsActive = true;
       };      
     },
 };
 
-flatpickr(date, options);
+flatpickr(inputDate, options);
 
 let intervalId = null;
 function start() {
-//  console.log(userSelectedDate);
-  if(!isActive) {
+  if(!btnIsActive) {
     return;
   }
   const startTime = userSelectedDate;
@@ -69,7 +71,8 @@ function start() {
     updateClockface(time);
   }, 1000);
 
-  isActive = false;
+  btnIsActive = false;
+  inputIsActive = false;
 }
 
 
@@ -81,7 +84,7 @@ function getTime(time) {
   const day = hour * 24;
 
   // Remaining days
-  const days = (Math.floor(time / day));
+  const days = pad(Math.floor(time / day));
   // Remaining hours
   const hours = pad(Math.floor((time % day) / hour));
   // Remaining minutes

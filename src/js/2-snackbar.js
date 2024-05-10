@@ -26,24 +26,22 @@ function handleSubmit (event) {
     const promise = new Promise((resolve, reject) => {
         setTimeout(() => {
             if (state === "fulfilled") {
-                resolve(`✅ Fulfilled promise in ${delayTime}ms`)
+                resolve(delayTime)
             } else {
-                reject(`❌ Rejected promise in ${delayTime}ms`)
+                reject(delayTime)
             }
         }, delayTime);
     });
     promise
         .then(value => {
             iziToast.info({
-            message: value,
-            });
-//        console.log(value); 
+            message: (`✅ Fulfilled promise in ${delayTime}ms`),
+            }); 
     })
         .catch(error => {
             iziToast.info({
-            message: error,
+            message: (`❌ Rejected promise in ${delayTime}ms`),
             });
-//        console.log(error); 
     });
 };
 

@@ -6,28 +6,20 @@ import "izitoast/dist/css/iziToast.min.css";
 
 
 
-let userSelectedDate = 0;
-
-
 const button = document.querySelector('button[data-start]');
-button.addEventListener("click", start);
 const inputDate = document.querySelector("#datetime-picker");
-//inputDate.addEventListener("click", hadleClick);
 const clockfaceDays = document.querySelector(".value[data-days]");
 const clockfaceHours = document.querySelector(".value[data-hours]");
 const clockfaceMins = document.querySelector(".value[data-minutes]");
 const clockfaceSeconds = document.querySelector(".value[data-seconds]");
 
+button.addEventListener("click", start);
 
-let btnIsActive = false;
-let inputIsActive = true;
+let userSelectedDate = 0;
+let intervalId = null;
 
-//function hadleClick() {
-//  if(!isActive) {
-//        return;
-//  }
-//  flatpickr(inputDate, options);
-//};
+button.disabled = false;
+inputDate.disabled = false;
 
 const options = {
   enableTime: true,
@@ -35,32 +27,32 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    if (!inputIsActive) {
+    if (inputDate.disabled) {
       return;
-    } else if (selectedDates[0].getTime() < Date.now()) {
-        iziToast.error({
-          title: 'Error',
-          message: 'Please choose a date in the future',
-        });
-      } else {        
-        userSelectedDate = selectedDates[0];
-        btnIsActive = true;
-      };      
-    },
+    };
+    if (selectedDates[0].getTime() < Date.now()) {
+      iziToast.error({
+        title: 'Error',
+        message: 'Please choose a date in the future',
+      });
+    } else {
+      userSelectedDate = selectedDates[0];
+    };
+  }, 
 };
 
 flatpickr(inputDate, options);
 
-let intervalId = null;
+
 function start() {
-  if(!btnIsActive) {
+  if(button.disabled) {
     return;
   }
   const startTime = userSelectedDate;
   if ((startTime - Date.now()) <= 0) {
     return;
-  }
-  
+  };
+
   intervalId = setInterval(() => {
     const deltaTime = startTime - Date.now();
     if (deltaTime <= 0) {
@@ -71,9 +63,10 @@ function start() {
     updateClockface(time);
   }, 1000);
 
-  btnIsActive = false;
-  inputIsActive = false;
-}
+  button.disabled = true;
+  inputDate.disabled = true;
+  
+};
 
 
 function getTime(time) {
